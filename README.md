@@ -19,7 +19,13 @@ This project is developed step by step to practice Object-Oriented Programming (
 - Object-Oriented Programming (OOP)
 
 ## 📌 Project Status
-🚧 In progress – Step 1: Planning and project setup.
+🚧 In progress ...
+
+## 🔮 Planned Features
+- Money transfer between customers
+- Delete customer functionality
+- Calculate total bank balance
+
 
 ## 🧑‍💻 Author
 Şivan Miroğlu
