@@ -47,6 +47,26 @@ class Program
         // Wait 2 seconds and return to the menu
         System.Threading.Thread.Sleep(2000);
     }
+    static void ListCustomers()
+    {
+            Console.WriteLine("\n════════ MÜŞTERİ LİSTESİ ════════");
+
+        // We are checking if there are any customers
+        if (customers.Count == 0)
+        {
+            Console.WriteLine("Henüz Kayıtlı Müşteri Yok.");
+            return; // finsh the method
+        }
+        // We list all customers
+        Console.WriteLine($"Toplam {customers.Count} müşteri bulunuyor:\n");
+
+        foreach(Customer customer in customers)
+        {
+            customer.PrintInfo(); //We call the PrintInfo method for each customer
+        }
+            Console.WriteLine("\nDevam etmek için bir tuşa basın...");
+            Console.ReadKey();
+    }
    static void ShowMainMenu()
     {
         Console.WriteLine("\n════════════ ANA MENÜ ════════════");
