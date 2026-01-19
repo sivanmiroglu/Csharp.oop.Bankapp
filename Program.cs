@@ -88,18 +88,18 @@ class Program
 
     switch (choice)
         {
-            case "1";
+            case "1":
             DeopositMoney();
             break;
-            case "2";
+            case "2":
             WithdrawMoney();
             break;
-            case "3";
+            case "3":
             CheckBalance();
             break;
-            case "4";
+            case "4":
             return; // back to main menu
-            default;    
+            default;  : 
             Console.WriteLine("Geçersiz seçim.");
             break;
         }
@@ -204,6 +204,33 @@ class Program
         }
         System.Threading.Thread.Sleep(2000);
     }
+
+    static void CheckBalance()
+    {
+            Console.WriteLine("\n════════ BAKİYE SORGULAMA ════════");
+            Console.Write("Müşteri No:");
+            int customerId;
+
+            if(!int.TryParse(Console.ReadLine(),out customerId))
+        {
+            Console.WriteLine("Gçersiz Müşteri Numarası");
+            return;
+        }
+
+        Customer customer = FindCustomerById(customerId);
+        if(customer == null)
+        {
+            Console.WriteLine("Müşteri Bulunamadı");
+            return;
+        }
+         // Show customer information
+             Console.WriteLine("\n════════ HESAP BİLGİLERİ ════════");
+           
+       customer.PrintInfo();    // We use the PrintInfo method in Customer class
+           Console.WriteLine("══════════════════════════════════");
+         Console.WriteLine("\nDevam etmek için bir tuşa basın...");
+    Console.ReadKey();
+    }
    static void ShowMainMenu()
     {
         Console.WriteLine("\n════════════ ANA MENÜ ════════════");
@@ -220,19 +247,19 @@ class Program
 
         switch (choice)
         {
-            case "1";
+            case "1":
                 RegisterNewCustomer();
                 break;
-                case "2";
-                ListCustoemers();
+                case "2":
+                ListCustomers();
                 break;
-                case "3";
+                case "3":
                 ShowAccountOperations();
                 break;
-                case "4";
+                case "4":
                 Console.WriteLine("Logging Out...");
                 return;
-                default;
+                default:
                 Console.WriteLine("Invalid choice! Try again");
                 break;
         }
