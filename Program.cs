@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Csharp.oop.Bankapp;
 class Program
@@ -66,6 +68,80 @@ class Program
         }
             Console.WriteLine("\nDevam etmek için bir tuşa basın...");
             Console.ReadKey();
+    }
+    static void ShowAccountOperations()
+    {
+        Console.WriteLine("\n════════ HESAP İŞLEMLERİ ════════");
+        if (customers.Count == 0)
+        {
+            Console.WriteLine("Önce müşteri kaydı yapmalısınız.");
+            return;
+        }
+              Console.WriteLine("1. Para Yatır");
+            Console.WriteLine("2. Para Çek");
+           Console.WriteLine("3. Bakiye Sorgula");
+           Console.WriteLine("4. Ana Menü");
+           Console.WriteLine("══════════════════════════════════");
+    
+    Console.Write("\nSeçiminiz (1-4): ");
+    string choice = Console.ReadLine();
+
+    switch (choice)
+        {
+            case "1";
+            DeopositMoney();
+            break;
+            case "2";
+            WithdrawMoney();
+            break;
+            case "3";
+            CheckBalance();
+            break;
+            case "4";
+            return; // back to main menu
+            default;    
+            Console.WriteLine("Geçersiz seçim.");
+            break;
+        }
+        // Show this menu again when the process is finished
+        ShowAccountOperations();
+    }
+
+    static void DeopositMoney()
+    {
+            Console.WriteLine("\n════════ PARA YATIRMA ════════");
+
+            // We ask for the customer number
+            Console.Write("Müşteri No:");
+            int customerId;
+
+            if(!int.TryParse(Console.ReadLine(),out customerId))
+        {
+            Console.WriteLine("Geçersiz müşteri numarası");
+        }
+        // We find the customer
+        Customer customer = FindCustomerById(customerId);
+        if(customer == null)
+        {
+            Console.WriteLine("Muşteri Bulunamadı");
+            return;
+        }
+        // we ask for the amount 
+        Console.Write("Yatırılacak Tutar:");
+        decimal amount;
+
+    if (!decimal.TryParse(Console.ReadLine(), out amount) || amount <= 0)
+        {
+            Console.WriteLine("Geçersiz miktar");
+            return;
+        }
+
+        // Update the balance
+        customer.Balance += amount;
+        Console.WriteLine($"\n✅ {amount} TL başarıyla yatırıldı.");
+        Console.WriteLine($"Güncel Bakiye: {customer.Balance:CheckBalance}");
+
+        System.Threading.Thread.Sleep(2000);
     }
    static void ShowMainMenu()
     {
