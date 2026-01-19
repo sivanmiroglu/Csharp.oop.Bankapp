@@ -143,6 +143,67 @@ class Program
 
         System.Threading.Thread.Sleep(2000);
     }
+    static Customer FindCustomerById(int id)
+    {
+       // We walk among all customers
+       foreach(Customer customer in customers)
+        {
+            if (customer.Id == id)
+            {
+                return customer; // Does the ID match?
+            }
+        }
+        return null; // is not found customer
+        
+    }
+
+    static void WithdrawMoney()
+    {
+            Console.WriteLine("\n════════ PARA ÇEKME ════════");
+            
+            Console.Write("Müşteri No:");
+            int customerId;
+
+            if(!int.TryParse(Console.ReadLine(), out customerId))
+        {
+            Console.WriteLine("Geçersiz Müşteri Numarası");
+            return;
+        }
+
+        Customer customer = FindCustomerById(customerId);
+
+        if (customer == null)
+        {
+            Console.WriteLine("Müşteri Bulunamadı");
+            return;
+        }
+        // Let's show the balance first
+        Console.WriteLine($"Mevcut Bakiye: {customer.Balance:CheckBalance}");
+
+        Console.Write("Çekileecek Tutar: ");
+        decimal amount;
+
+        if(!decimal.TryParse(Console.ReadLine(), out amount) || amount <= 0)
+        {
+            Console.WriteLine("Gçersiz Miktar");
+            return;
+        }
+        // Let's check if the balance is sufficient
+        if (amount > customer.Balance)
+        {
+             Console.WriteLine("❌ Yetersiz bakiye!");
+             Console.WriteLine($"Çekmek istediğiniz:{amount:CheckBalance}");
+             Console.WriteLine($"Mevcut Bakiye:{customer.Balance:CheckBalance}");
+        }
+        else
+        {
+            // Withdrawal
+            customer.Balance = customer.Balance - amount;
+             Console.WriteLine($"\n✅ {amount:C} çekildi.");
+             Console.WriteLine($"Güncel Bakiye:{customer.Balance:CheckBalance}");
+        }
+        System.Threading.Thread.Sleep(2000);
+    }
    static void ShowMainMenu()
     {
         Console.WriteLine("\n════════════ ANA MENÜ ════════════");
