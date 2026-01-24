@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Data.Common;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 
@@ -99,7 +100,7 @@ class Program
             break;
             case "4":
             return; // back to main menu
-            default;  : 
+            default: 
             Console.WriteLine("Geçersiz seçim.");
             break;
         }
@@ -230,6 +231,79 @@ class Program
            Console.WriteLine("══════════════════════════════════");
          Console.WriteLine("\nDevam etmek için bir tuşa basın...");
     Console.ReadKey();
+    }
+    static void TransferforMoney()
+    {
+            Console.WriteLine("\n════════ PARA TRANSFERİ ════════");
+
+            // 1. Get the sender customer ID
+            Console.Write("Gönderen Müşteri No:");
+            int senderId;
+
+            if(!int.TryParse(Console.ReadLine(), out senderId))
+        {
+            Console.WriteLine("Geçersiz Müşteri Numarası!");
+            return;
+        }
+
+        // Find the sender customer
+        Customer sender = FindCustomerById(senderId);
+        if(sender == null)
+        {
+            Console.WriteLine("Gönderen müşteri bulunamadı");
+            return;
+        }
+
+        // 3. Get the recipient customer ID
+        Console.Write("Alıcı Müşteri No:");
+        int receiverId;
+
+        if(!int.TryParse(Console.ReadLine(),out receiverId)) ;
+        {
+            Console.WriteLine("Geçersiz Müşteri Numarası");
+            return;
+        }
+        // Find the recipient
+        Customer receiver = FindCustomerById(receiverId);
+        if (receiver == null)
+        {
+            Console.WriteLine("Alıcı Müşteri Numarası Bulunamadı");
+            return; 
+        }
+        // 5. Check if there is a transfer to the same person
+        if (senderId == receiverId)
+        {
+                   Console.WriteLine("❌ Kendi hesabınıza transfer yapamazsınız!");
+             return;
+        }
+        // 6. Get the transfer amount
+        Console.Write("Transfer Miktarı:");
+        decimal amount;
+
+        if(!decimal.TryParse(Console.ReadLine(),out amount) || amount <= 0)
+        {
+            Console.WriteLine("Geçersiz Miktar");
+            return;
+        }
+       // 7. Check if the sender's money is enough
+       if(amount > sender.Balance)
+        {
+            Console.WriteLine("❌ Yetersiz Bakiye!");
+            Console.WriteLine($"Göndermek istediğiniz:{amount:C}");
+            Console.WriteLine($"Mevcut Bakiye:{sender.Balance:C}");
+            return;
+        }
+        
+        // 8. Perform the transfer
+        sender.Balance -= amount;
+        receiver.Balance += amount;
+
+        Console.WriteLine($"\n✅ {amount:C} başarıyla transfer edildi.");
+        Console.WriteLine($"Gönderen Güncel Bakiye:{sender.Balance:C}");
+        Console.WriteLine($"Alıcı Güncel Bakiye:{receiver.Balance:C}");
+
+        System.Threading.Thread.Sleep(2000);
+    
     }
    static void ShowMainMenu()
     {
