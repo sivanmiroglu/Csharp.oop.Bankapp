@@ -1,31 +1,3 @@
-# Csharp.OOP.BankApp
-
-A simple C# console banking application that allows creating accounts, 
-managing customers, depositing and withdrawing money, and checking balances.
-
-## 🚀 Project Goal
-This project is developed step by step to practice Object-Oriented Programming (OOP) concepts in C#.
-
-## 🧩 Planned Features
-- Register customer information
-- Create bank accounts
-- Deposit money
-- Withdraw money
-- Check account balance
-
-## 🏗️ Technologies
-- C#
-- .NET Console Application
-- Object-Oriented Programming (OOP)
-
-## 📌 Project Status
-🚧 In progress ...
-
-## 🔮 Planned Features
-- Money transfer between customers
-- Delete customer functionality
-- Calculate total bank balance
-
-
-## 🧑‍💻 Author
-Şivan Miroğlu
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![OOP](https://img.shields.io/badge/OOP-Object--Oriented-blue?style=for-the-badge)

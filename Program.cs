@@ -79,31 +79,26 @@ class Program
             return;
         }
               Console.WriteLine("1. Para Yatır");
-            Console.WriteLine("2. Para Çek");
-           Console.WriteLine("3. Bakiye Sorgula");
-           Console.WriteLine("4. Ana Menü");
-           Console.WriteLine("══════════════════════════════════");
+    Console.WriteLine("2. Para Çek");
+    Console.WriteLine("3. Bakiye Sorgula");
+    Console.WriteLine("4. Para Transferi");  
+    Console.WriteLine("5. Ana Menü");       
+    Console.WriteLine("══════════════════════════════════");
     
-    Console.Write("\nSeçiminiz (1-4): ");
+    Console.Write("\nSeçiminiz (1-5): ");
     string choice = Console.ReadLine();
 
-    switch (choice)
-        {
-            case "1":
-            DeopositMoney();
-            break;
-            case "2":
-            WithdrawMoney();
-            break;
-            case "3":
-            CheckBalance();
-            break;
-            case "4":
-            return; // back to main menu
-            default: 
-            Console.WriteLine("Geçersiz seçim.");
-            break;
-        }
+      switch (choice)
+    {
+        case "1": DeopositMoney(); break;
+        case "2": WithdrawMoney(); break;
+        case "3": CheckBalance(); break;
+        case "4": TransferforMoney(); break;  // ← YENİ EKLENDİ
+        case "5": return;  // Ana menüye dön
+        default: Console.WriteLine("Geçersiz seçim!"); break;
+    }
+    
+    ShowAccountOperations();
         // Show this menu again when the process is finished
         ShowAccountOperations();
     }
@@ -293,7 +288,7 @@ class Program
             Console.WriteLine($"Mevcut Bakiye:{sender.Balance:C}");
             return;
         }
-        
+
         // 8. Perform the transfer
         sender.Balance -= amount;
         receiver.Balance += amount;
@@ -305,18 +300,132 @@ class Program
         System.Threading.Thread.Sleep(2000);
     
     }
+    static void DeleteCustomer()
+    {
+        Console.WriteLine("\n════════ MÜŞTERİ SİLME ════════");
+
+        // Show customer list first
+        ListCustomers();
+
+        if(customers.Count == 0)
+        {
+         return;   
+        }
+
+        // Get the customer ID to be deleted
+        Console.Write("Silinecek Müşteri No:");
+        int customerId;
+
+        if(!int.TryParse(Console.ReadLine(),out customerId))
+        {
+            Console.WriteLine("Geçersiz Müşteri Numarası");
+            return;
+        }
+        // Found the customer
+        Customer customerToDelete = FindCustomerById(customerId);
+        if(customerToDelete == null)
+        {
+            Console.WriteLine("Müşteri Bulunamadı");
+            return;
+        }
+    Console.WriteLine($"\nSilmek istediğiniz müşteri:");
+        customerToDelete.PrintInfo();
+            Console.Write("\nBu müşteriyi silmek istediğinize emin misiniz? (E/H): ");
+        string confirmation = Console.ReadLine().ToUpper();
+
+        if(confirmation == "E" || confirmation == "EVET")
+        {
+            // Remove customer from list
+            customers.Remove(customerToDelete);
+                    Console.WriteLine($"✅ Müşteri ({customerToDelete.Name}) başarıyla silindi.");
+        }
+        else
+        {
+                    Console.WriteLine("❌ Silme işlemi iptal edildi.");
+        }
+        System.Threading.Thread.Sleep(2000);
+    }
+
+    static void ShowBankReport()
+    {
+            Console.WriteLine("\n══════════ BANKA RAPORU ══════════");
+        //Total number of customers
+        Console.WriteLine($"Toplam Müşteri Sayısı : {customers.Count}");
+
+        if(customers.Count == 0)
+        {
+            Console.WriteLine("Henüz müşteri kaydı yok.");
+            return;
+        }
+        // Total balance 
+        decimal totalBalance = 0;
+        foreach(Customer customer in customers)
+        {
+            totalBalance += customer.Balance;
+        }
+        Console.WriteLine($"Toplam Bakiye: {totalBalance:C}");
+
+        // Average Balance
+        decimal averageBalance = totalBalance / customers.Count;
+        Console.WriteLine($"Ortalama Bakiye: {averageBalance:C}");
+
+       // Highest balance
+       Customer richestCustomer = null;
+       decimal maxBalance = 0;
+
+       foreach (Customer customer in customers)
+        {
+            if(customer.Balance > maxBalance)
+            {
+                maxBalance = customer.Balance;
+                richestCustomer = customer;
+            }
+        }
+        if (richestCustomer != null)
+    {
+        Console.WriteLine($"\n🏆 En Zengin Müşteri:");
+        Console.WriteLine($"   Ad: {richestCustomer.Name}");
+        Console.WriteLine($"   Bakiye: {richestCustomer.Balance:C}");
+    }
+    // Lowest Balance
+        Customer poorestCustomer = null;
+    decimal minBalance = decimal.MaxValue;
+    
+    foreach (Customer customer in customers)
+    {
+        if (customer.Balance < minBalance)
+        {
+            minBalance = customer.Balance;
+            poorestCustomer = customer;
+        }
+    }
+    
+    if (poorestCustomer != null && poorestCustomer != richestCustomer)
+    {
+        Console.WriteLine($"\n📉 En Düşük Bakiye:");
+        Console.WriteLine($"   Ad: {poorestCustomer.Name}");
+        Console.WriteLine($"   Bakiye: {poorestCustomer.Balance:C}");
+    }
+    
+    Console.WriteLine("\n═══════════════════════════════════");
+    Console.WriteLine("\nDevam etmek için bir tuşa basın...");
+    Console.ReadKey();
+}
+    
+
    static void ShowMainMenu()
     {
-        Console.WriteLine("\n════════════ ANA MENÜ ════════════");
-        Console.WriteLine("1. Yeni Müşteri Kaydı");
-        Console.WriteLine("2. Müşteri Listesi");
-        Console.WriteLine("3. Hesap İşlemleri");
-        Console.WriteLine("4. Çıkış");
-        Console.WriteLine("═══════════════════════════════════");
-
-        Console.Write("\nSeçiminiz (1-4): ");
-        string choice = Console.ReadLine();
-
+          Console.WriteLine("\n════════════ ANA MENÜ ════════════");
+    Console.WriteLine("1. Yeni Müşteri Kaydı");
+    Console.WriteLine("2. Müşteri Listesi");
+    Console.WriteLine("3. Hesap İşlemleri");
+    Console.WriteLine("4. Müşteri Sil");     
+    Console.WriteLine("5. Banka Raporu");     
+    Console.WriteLine("6. Çıkış");            
+    Console.WriteLine("═══════════════════════════════════");
+    
+    Console.Write("\nSeçiminiz (1-6): ");
+    string choice = Console.ReadLine();
         // Act according to the user's choice
 
         switch (choice)
@@ -331,11 +440,17 @@ class Program
                 ShowAccountOperations();
                 break;
                 case "4":
-                Console.WriteLine("Logging Out...");
-                return;
-                default:
-                Console.WriteLine("Invalid choice! Try again");
+                DeleteCustomer();
                 break;
+                case "5":
+               ShowBankReport();
+               break;
+                  case "6": 
+            Console.WriteLine("Çıkış yapılıyor...");
+            return;
+        default:
+            Console.WriteLine("Geçersiz seçim! Tekrar deneyin.");
+            break;
         }
         //back to menu
         ShowMainMenu();
